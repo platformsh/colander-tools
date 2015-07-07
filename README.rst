@@ -14,7 +14,7 @@ they are strict on serialize and loose on deserialize.
 
 Included are:
 
-* Integer
-* Float
-* Boolean
-* String
+* ``Integer``
+* ``Float``
+* ``Boolean``
+* ``String``
