@@ -3,7 +3,7 @@
 A collection of strict types for Colander.
 """
 
-from colander import _, SchemaType, Invalid, null
+from colander import _, SchemaType, Invalid, null, Mapping as BaseMapping
 
 
 class Number(SchemaType):
@@ -109,3 +109,21 @@ class String(SchemaType):
             return cstruct
 
         raise Invalid(node, _('${val} is not a string', mapping={'val': cstruct}))
+
+
+class Mapping(BaseMapping):
+    """
+    A mapping that doesn't allow unknown keys.
+
+    Note that Mapping by default respects the ``unknown`` parameter for both
+    `serialize()` and `deserialize()`. The former doesn't make much sense,
+    so we only override the flag when performing the operation.
+    """
+
+    def serialize(self, node, appstruct):
+        self.unknown = "ignore"
+        return BaseMapping.serialize(self, node, appstruct)
+
+    def deserialize(self, node, cstruct):
+        self.unknown = "raise"
+        return BaseMapping.deserialize(self, node, cstruct)
