@@ -30,20 +30,20 @@ class AbstractEncodedBytes(SchemaType):
 
 
 class Base16Bytes(AbstractEncodedBytes):
-    encoder = base64.b16encode
-    decoder = base64.b16decode
+    encoder = staticmethod(base64.b16encode)
+    decoder = staticmethod(base64.b16decode)
 
 
 class Base32Bytes(AbstractEncodedBytes):
-    encoder = base64.b32encode
-    decoder = base64.b32decode
+    encoder = staticmethod(base64.b32encode)
+    decoder = staticmethod(base64.b32decode)
 
 
 class Base64Bytes(AbstractEncodedBytes):
-    encoder = base64.standard_b64encode
-    decoder = base64.standard_b64decode
+    encoder = staticmethod(base64.standard_b64encode)
+    decoder = staticmethod(base64.standard_b64decode)
 
 
 class URLSafeBase64Bytes(AbstractEncodedBytes):
-    encoder = base64.urlsafe_b64encode
-    decoder = base64.urlsafe_b64decode
+    encoder = staticmethod(base64.urlsafe_b64encode)
+    decoder = staticmethod(base64.urlsafe_b64decode)
