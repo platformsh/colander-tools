@@ -6,10 +6,10 @@ def _patch_serializable_class_schema(schema_cls, appstruct_cls):
         if not isinstance(appstruct, self.AppStructClass):
             raise TypeError("%s is not the expected type %s" % (appstruct, self.AppStructClass))
 
-        return super(schema_cls, self).serialize(self, appstruct.__dict__)
+        return super(schema_cls, self).serialize(appstruct.__dict__)
 
     def deserialize(self, cstruct):
-        return self.AppStructClass(**super(schema_cls, self).deserialize(self, cstruct))
+        return self.AppStructClass(**super(schema_cls, self).deserialize(cstruct))
 
     schema_cls.AppStructClass = appstruct_cls
     schema_cls.serialize = serialize
