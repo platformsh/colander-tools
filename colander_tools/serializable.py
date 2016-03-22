@@ -1,27 +1,22 @@
 
 
 
-def _wrap_serializable_class_schema(cls, schema_cls):
+def _patch_serializable_class_schema(schema_cls, appstruct_cls):
     def serialize(self, appstruct):
         if not isinstance(appstruct, self.AppStructClass):
             raise TypeError("%s is not the expected type %s" % (appstruct, self.AppStructClass))
 
-        return schema_cls.serialize(self, appstruct.__dict__)
+        return super(schema_cls, self).serialize(self, appstruct.__dict__)
 
     def deserialize(self, cstruct):
-        return self.AppStructClass(**schema_cls.deserialize(self, cstruct))
+        return self.AppStructClass(**super(schema_cls, self).deserialize(self, cstruct))
 
-    return type(
-        "%sSchema" % cls.__name__,
-        (cls.Schema, ),
-        {
-            "AppStructClass": cls,
-            "serialize": serialize,
-            "deserialize": deserialize,
-            },
-        )
+    schema_cls.AppStructClass = appstruct_cls
+    schema_cls.serialize = serialize
+    schema_cls.deserialize = deserialize
 
-def _wrap_serializable_class(cls):
+
+def _patch_serializable_class(cls):
     def serialize(self, bind_kwargs=None):
         schema = self.Schema()
         if bind_kwargs is not None:
@@ -34,19 +29,14 @@ def _wrap_serializable_class(cls):
             schema = schema.bind(**bind_kwargs)
         return schema.deserialize(values)
 
-    return type(
-        cls.__name__,
-        (cls, ),
-        {
-            "serialize": serialize,
-            "deserialize": classmethod(deserialize),
-            },
-        )
+    cls.serialize = serialize
+    cls.deserialize = classmethod(deserialize)
 
 
 def serializable(cls):
     """
     Class decorator: bind a colander schema and a python class.
     """
-    cls.Schema = _wrap_serializable_class_schema(cls, cls.Schema)
-    return _wrap_serializable_class(cls)
+    _patch_serializable_class_schema(cls.Schema, cls)
+    _patch_serializable_class(cls)
+    return cls
