@@ -46,8 +46,8 @@ def test_float():
     float = strict.Float().deserialize({}, 4.5)
     assert(float == 4.5)
 
-    float = strict.Float().deserialize({}, True)
-    assert(float == 1)
+    with pytest.raises(colander.Invalid):
+        float = strict.Float().deserialize({}, True)
 
     with pytest.raises(colander.Invalid):
         float = strict.Float().deserialize({}, "foo")

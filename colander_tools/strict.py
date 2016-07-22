@@ -21,13 +21,16 @@ class Number(SchemaType):
             raise Invalid(node, _('"${val}" is not a number', mapping={'val': appstruct}))
 
     def deserialize(self, node, cstruct):
-        if cstruct != 0 and not cstruct:
+        if cstruct is null:
             return null
 
         try:
-            return self.num(cstruct)
+            if isinstance(cstruct, self.num):
+                return self.num(cstruct)
         except Exception:
-            raise Invalid(node, _('"${val}" is not a number', mapping={'val': cstruct}))
+            pass
+
+        raise Invalid(node, _('"${val}" is not a number', mapping={'val': cstruct}))
 
 
 class Integer(Number):
