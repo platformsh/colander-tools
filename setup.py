@@ -8,7 +8,7 @@ with open(os.path.join(here, "README.rst")) as f:
 
 setup(
     name="colander_tools",
-    version="0.6.0",
+    version="0.6.1",
     description="Extensions to `colander`, particularly useful as part of REST API validation.",
     long_description=README,
     license="BSD",
