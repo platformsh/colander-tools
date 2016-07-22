@@ -4,6 +4,7 @@ A collection of strict types for Colander.
 """
 
 from colander import _, SchemaType, Invalid, null, Mapping as BaseMapping
+from . import compat
 
 
 class Number(SchemaType):
@@ -21,13 +22,16 @@ class Number(SchemaType):
             raise Invalid(node, _('"${val}" is not a number', mapping={'val': appstruct}))
 
     def deserialize(self, node, cstruct):
-        if cstruct != 0 and not cstruct:
+        if cstruct is null:
             return null
 
         try:
-            return self.num(cstruct)
+            if isinstance(cstruct, self.num):
+                return self.num(cstruct)
         except Exception:
-            raise Invalid(node, _('"${val}" is not a number', mapping={'val': cstruct}))
+            pass
+
+        raise Invalid(node, _('"${val}" is not a number', mapping={'val': cstruct}))
 
 
 class Integer(Number):
@@ -99,13 +103,13 @@ class String(SchemaType):
         if appstruct is null:
             return null
 
-        return unicode(appstruct)
+        return compat.text_type(appstruct)
 
     def deserialize(self, node, cstruct):
         if cstruct is null:
             return null
 
-        if isinstance(cstruct, basestring):
+        if isinstance(cstruct, compat.string_types):
             return cstruct
 
         raise Invalid(node, _('${val} is not a string', mapping={'val': cstruct}))
