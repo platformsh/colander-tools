@@ -1,5 +1,6 @@
 import colander
 from colander_tools import strict
+import pytest
 
 
 def test_integer():
@@ -10,17 +11,11 @@ def test_integer():
     integer = strict.Integer().serialize({}, True)
     assert(integer == 1)
 
-    try:
+    with pytest.raises(colander.Invalid):
         integer = strict.Integer().serialize({}, "foo")
-        raise
-    except colander.Invalid:
-        pass
 
-    try:
+    with pytest.raises(colander.Invalid):
         integer = strict.Integer().serialize({}, {})
-        raise
-    except colander.Invalid:
-        pass
 
     # Deserialization
     integer = strict.Integer().deserialize({}, 1)
@@ -29,17 +24,11 @@ def test_integer():
     integer = strict.Integer().deserialize({}, True)
     assert(integer == 1)
 
-    try:
+    with pytest.raises(colander.Invalid):
         integer = strict.Integer().deserialize({}, "foo")
-        raise
-    except colander.Invalid:
-        pass
 
-    try:
+    with pytest.raises(colander.Invalid):
         integer = strict.Integer().deserialize({}, {})
-        raise
-    except colander.Invalid:
-        pass
 
 
 def test_float():
@@ -50,11 +39,8 @@ def test_float():
     float = strict.Float().serialize({}, True)
     assert(float == 1)
 
-    try:
+    with pytest.raises(colander.Invalid):
         float = strict.Float().serialize({}, "foo")
-        raise
-    except colander.Invalid:
-        pass
 
     # Deserialization
     float = strict.Float().deserialize({}, 4.5)
@@ -63,11 +49,8 @@ def test_float():
     float = strict.Float().deserialize({}, True)
     assert(float == 1)
 
-    try:
+    with pytest.raises(colander.Invalid):
         float = strict.Float().deserialize({}, "foo")
-        raise
-    except colander.Invalid:
-        pass
 
 
 def test_boolean():
@@ -116,23 +99,14 @@ def test_string():
     string = strict.String().deserialize({}, "foo")
     assert(string == "foo")
 
-    try:
+    with pytest.raises(colander.Invalid):
         string = strict.String().deserialize({}, True)
-        raise
-    except colander.Invalid:
-        pass
 
-    try:
+    with pytest.raises(colander.Invalid):
         string = strict.String().deserialize({}, 1)
-        raise
-    except colander.Invalid:
-        pass
 
-    try:
+    with pytest.raises(colander.Invalid):
         string = strict.String().deserialize({}, {})
-        raise
-    except colander.Invalid:
-        pass
 
 
 def test_mapping():
@@ -142,17 +116,11 @@ def test_mapping():
         foo = colander.SchemaNode(strict.String())
         bar = colander.SchemaNode(strict.String())
 
-    try:
+    with pytest.raises(colander.Invalid):
         Foo().deserialize({"foo": "bar"})
-        raise
-    except colander.Invalid:
-        pass
 
-    try:
+    with pytest.raises(colander.Invalid):
         Foo().deserialize({"bar": "foo"})
-        raise
-    except colander.Invalid:
-        pass
 
     correct = {"bar": "foo", "foo": "bar"}
     mapping = Foo().deserialize(correct)
