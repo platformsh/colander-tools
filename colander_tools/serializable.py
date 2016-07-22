@@ -1,4 +1,11 @@
 
+def serializable(cls):
+    """
+    Class decorator: bind a colander schema and a python class.
+    """
+    _patch_serializable_class_schema(cls.Schema, cls)
+    _patch_serializable_class(cls)
+    return cls
 
 
 def _patch_serializable_class_schema(schema_cls, appstruct_cls):
@@ -31,12 +38,3 @@ def _patch_serializable_class(cls):
 
     cls.serialize = serialize
     cls.deserialize = classmethod(deserialize)
-
-
-def serializable(cls):
-    """
-    Class decorator: bind a colander schema and a python class.
-    """
-    _patch_serializable_class_schema(cls.Schema, cls)
-    _patch_serializable_class(cls)
-    return cls
