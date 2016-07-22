@@ -4,6 +4,7 @@ from __future__ import absolute_import
 import base64
 
 from colander import SchemaType, null, Invalid, _
+from . import compat
 
 
 class AbstractEncodedBytes(SchemaType):
@@ -23,7 +24,7 @@ class AbstractEncodedBytes(SchemaType):
         if cstruct is null:
             return null
 
-        if not isinstance(cstruct, basestring):
+        if not isinstance(cstruct, compat.string_types):
             raise Invalid(node, _("must be a string"))
 
         return self.decoder(cstruct)
