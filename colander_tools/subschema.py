@@ -1,5 +1,5 @@
 
-from colander import MappingSchema, Invalid, null, _
+from colander import MappingSchema, Invalid, null
 
 
 class SubSchemaMappingSchema(MappingSchema):
