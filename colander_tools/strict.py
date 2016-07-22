@@ -12,7 +12,7 @@ class Number(SchemaType):
     num = None
 
     def serialize(self, node, appstruct):
-        if appstruct in null:
+        if appstruct is null:
             return null
 
         try:
