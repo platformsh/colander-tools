@@ -80,4 +80,5 @@ Timezone type
 -------------------
 
 The ``colander_tools.timezone`` module includes a type for serializing and
-deserializing timezone identifiers like `Europe/Amsterdam` or `Asia/Hong_Kong`.
+deserializing timezone identifiers like `Europe/Amsterdam` or `Asia/Hong_Kong`,
+powered by the ``pytz`` package.
