@@ -1,5 +1,5 @@
 
-from colander import SchemaType, drop
+from colander import SchemaType, drop, null
 
 
 class NullType(SchemaType):
@@ -33,3 +33,34 @@ class IgnoreType(SchemaType):
 
     def deserialize(self, node, cstruct):
         return drop
+
+
+def NullableSchema(schema_cls):
+    def _serialize(self, appstruct=null):
+        # Replicate colander behavior w.r.t. default.
+        if appstruct is null:
+            appstruct = self.default
+
+        if appstruct is None:
+            return None
+
+        return schema_cls.serialize(self, appstruct)
+
+    def _deserialize(self, cstruct=null):
+        # Replicate colander behavior w.r.t. missing.
+        if cstruct is null:
+            cstruct = self.missing
+
+        if cstruct is None:
+            return None
+
+        return schema_cls.deserialize(self, cstruct)
+
+    return type(
+        "Nullable%s" % schema_cls.__name__,
+        (schema_cls, ),
+        {
+            "serialize": _serialize,
+            "deserialize": _deserialize,
+        }
+    )
