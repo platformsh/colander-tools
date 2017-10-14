@@ -1,7 +1,7 @@
-
 from collections import OrderedDict
 
-from colander import Mapping, Invalid
+import six
+from colander import Mapping, Invalid, SchemaNode
 
 
 class OpenMapping(Mapping):
@@ -15,7 +15,7 @@ class OpenMapping(Mapping):
         error = None
         result = {}
 
-        for index, (k, v) in enumerate(value.iteritems()):
+        for index, (k, v) in enumerate(six.iteritems(value)):
             key_node = node["key"]
             value_node = node["value"].clone()
             value_node.name = k
@@ -34,7 +34,15 @@ class OpenMapping(Mapping):
         return result
 
 
+class OpenMappingSchema(SchemaNode):
+    schema_type = OpenMapping
+
+
 class SortedOpenMapping(OpenMapping):
     def _impl(self, node, value, callback):
         result = OpenMapping._impl(self, node, value, callback)
         return OrderedDict(sorted(result.items()))
+
+
+class SortedOpenMappingSchema(SchemaNode):
+    schema_type = SortedOpenMapping
