@@ -37,7 +37,7 @@ def serializable(cls):
                 self.country = country
 
     """
-    _patch_serializable_class_schema(cls.Schema, cls)
+    cls.Schema = _patch_serializable_class_schema(cls.Schema, cls)
     _patch_serializable_class(cls)
     return cls
 
@@ -47,14 +47,20 @@ def _patch_serializable_class_schema(schema_cls, appstruct_cls):
         if not isinstance(appstruct, self.AppStructClass):
             raise TypeError("%s is not the expected type %s" % (appstruct, self.AppStructClass))
 
-        return super(schema_cls, self).serialize(appstruct.__dict__)
+        return schema_cls.serialize(self, appstruct.__dict__)
 
     def deserialize(self, cstruct):
-        return self.AppStructClass(**super(schema_cls, self).deserialize(cstruct))
+        return self.AppStructClass(**schema_cls.deserialize(self, cstruct))
 
-    schema_cls.AppStructClass = appstruct_cls
-    schema_cls.serialize = serialize
-    schema_cls.deserialize = deserialize
+    return type(
+        schema_cls.__name__,
+        (schema_cls,),
+        {
+            "AppStructClass": appstruct_cls,
+            "serialize": serialize,
+            "deserialize": deserialize,
+        }
+    )
 
 
 def _patch_serializable_class(cls):
