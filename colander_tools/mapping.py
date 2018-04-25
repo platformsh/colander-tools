@@ -1,10 +1,10 @@
 
-from collections import OrderedDict
+import collections
 
-from colander import Mapping, Invalid
+import colander
 
 
-class OpenMapping(Mapping):
+class OpenMapping(colander.Mapping):
     """
     A mapping where the keys are free-form and the values a specific type.
     """
@@ -23,9 +23,9 @@ class OpenMapping(Mapping):
             try:
                 name = callback(key_node, k)
                 result[name] = callback(value_node, v)
-            except Invalid as e:
+            except colander.Invalid as e:
                 if error is None:
-                    error = Invalid(node)
+                    error = colander.Invalid(node)
                 error.add(e, index)
 
         if error is not None:
@@ -37,4 +37,4 @@ class OpenMapping(Mapping):
 class SortedOpenMapping(OpenMapping):
     def _impl(self, node, value, callback):
         result = OpenMapping._impl(self, node, value, callback)
-        return OrderedDict(sorted(result.items()))
+        return collections.OrderedDict(sorted(result.items()))
