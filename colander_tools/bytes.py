@@ -18,7 +18,7 @@ class AbstractEncodedBytes(SchemaType):
             return null
 
         if not isinstance(appstruct, six.binary_type):
-            raise Invalid(node, _("{} ook must be a byte string ".format(type(appstruct),appstruct)))
+            raise Invalid(node, _("{} must be a byte string ".format(type(appstruct),appstruct)))
 
         return self.encoder(appstruct)
 
@@ -27,7 +27,7 @@ class AbstractEncodedBytes(SchemaType):
             return null
 
         if not isinstance(cstruct, compat.chars_type):
-            raise Invalid(node, _("{} pook must be a string".format(type(cstruct))))
+            raise Invalid(node, _("{} must be a string".format(type(cstruct))))
 
         return self.decoder(cstruct)
 
