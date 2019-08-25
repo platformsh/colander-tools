@@ -47,7 +47,7 @@ def _patch_serializable_class_schema(schema_cls, appstruct_cls):
         if not isinstance(appstruct, self.AppStructClass):
             raise TypeError("%s is not the expected type %s" % (appstruct, self.AppStructClass))
 
-        return schema_cls.serialize(self, appstruct.__dict__)
+        return schema_cls.serialize(self, _asdict(appstruct))
 
     def deserialize(self, cstruct):
         return self.AppStructClass(**schema_cls.deserialize(self, cstruct))
@@ -61,6 +61,13 @@ def _patch_serializable_class_schema(schema_cls, appstruct_cls):
             "deserialize": deserialize,
         }
     )
+
+
+def _asdict(inst):
+    if hasattr(inst, "asdict"):
+        return inst.asdict()
+    else:
+        return inst.__dict__
 
 
 def _patch_serializable_class(cls):
