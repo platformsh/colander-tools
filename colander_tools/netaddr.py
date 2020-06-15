@@ -9,7 +9,7 @@ class IPAddressType(SchemaType):
     def __init__(self, version=None):
         self._version = version
 
-    def serialize(self, node, appstruct):
+    def serialize(self, node, appstruct):  # noqa
         if appstruct is null:
             return null
 
@@ -21,7 +21,7 @@ class IPAddressType(SchemaType):
 
         try:
             return IPAddress(cstruct, version=self._version)
-        except:
+        except Exception:
             raise Invalid(node, _("must be a string representation of an IP address"))
 
 
@@ -29,7 +29,7 @@ class IPNetworkType(SchemaType):
     def __init__(self, version=None):
         self._version = version
 
-    def serialize(self, node, appstruct):
+    def serialize(self, node, appstruct):  # noqa
         if appstruct is null:
             return null
 
@@ -44,5 +44,5 @@ class IPNetworkType(SchemaType):
 
         try:
             return IPNetwork(cstruct, version=self._version)
-        except:
+        except Exception:
             raise Invalid(node, _("must be a string representation of an IP address or CIDR"))

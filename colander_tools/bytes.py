@@ -18,7 +18,7 @@ class AbstractEncodedBytes(SchemaType):
         if not isinstance(appstruct, str):
             raise Invalid(node, _("must be a byte string"))
 
-        return self.encoder(appstruct)
+        return self.encoder(appstruct)  # noqa
 
     def deserialize(self, node, cstruct):
         if cstruct is null:
@@ -27,7 +27,7 @@ class AbstractEncodedBytes(SchemaType):
         if not isinstance(cstruct, compat.string_types):
             raise Invalid(node, _("must be a string"))
 
-        return self.decoder(cstruct)
+        return self.decoder(cstruct)  # noqa
 
 
 class Base16Bytes(AbstractEncodedBytes):

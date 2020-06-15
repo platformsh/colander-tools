@@ -17,7 +17,7 @@ class Number(SchemaType):
             return null
 
         try:
-            return self.num(appstruct)
+            return self.num(appstruct)  # noqa
         except Exception:
             raise Invalid(node, _('"${val}" is not a number', mapping={'val': appstruct}))
 
@@ -27,7 +27,7 @@ class Number(SchemaType):
 
         try:
             if isinstance(cstruct, self.num):
-                return self.num(cstruct)
+                return self.num(cstruct)  # noqa
         except Exception:
             pass
 
@@ -65,7 +65,7 @@ class Boolean(SchemaType):
     On deserialize, accepts a boolean or a boolean represented as a string.
     """
 
-    def serialize(self, node, appstruct):
+    def serialize(self, node, appstruct):  # noqa
         if appstruct is null:
             return null
 
@@ -80,7 +80,7 @@ class Boolean(SchemaType):
 
         try:
             result = str(cstruct)
-        except:
+        except Exception:
             raise Invalid(node, _('${val} is not a boolean', mapping={'val': cstruct}))
         result = result.lower()
 
@@ -99,7 +99,7 @@ class String(SchemaType):
     On deserialize, accepts a string or an unicode instance.
     """
 
-    def serialize(self, node, appstruct):
+    def serialize(self, node, appstruct):  # noqa
         if appstruct is null:
             return null
 

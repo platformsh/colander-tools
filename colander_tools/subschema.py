@@ -24,7 +24,7 @@ class SubSchemaMappingSchema(MappingSchema):
         subschema = self._build_schema(schema_type)
         return MappingSchema.deserialize(subschema, cstruct)
 
-    def get_schema(self, schema_type):
+    def get_schema(self, schema_type):  # noqa
         raise Invalid(self[self.type_key], "Invalid value for key %s" % self.type_key)
 
     def _deserialize_type(self, cstruct):
@@ -45,7 +45,7 @@ class SubSchemaMappingSchema(MappingSchema):
         schema = self.clone()
 
         # Build the subschema and bind it.
-        subschema = self.get_schema(schema_type)
+        subschema = self.get_schema(schema_type)  # noqa
         if self.bindings is not None:
             subschema = subschema.bind(**self.bindings)
 

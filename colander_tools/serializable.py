@@ -66,8 +66,7 @@ def _patch_serializable_class_schema(schema_cls, appstruct_cls):
 def _asdict(inst):
     if hasattr(inst, "asdict"):
         return inst.asdict()
-    else:
-        return inst.__dict__
+    return inst.__dict__
 
 
 def _patch_serializable_class(cls):
