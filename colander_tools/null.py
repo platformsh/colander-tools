@@ -28,10 +28,10 @@ class IgnoreType(SchemaType):
     Type that is silently ignored from mappings.
     """
 
-    def serialize(self, node, appstruct):
+    def serialize(self, node, appstruct):  # noqa
         return drop
 
-    def deserialize(self, node, cstruct):
+    def deserialize(self, node, cstruct):  # noqa
         return drop
 
 

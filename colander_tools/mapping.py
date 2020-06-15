@@ -11,7 +11,7 @@ class OrderedMapping(colander.Mapping):
         super(OrderedMapping, self).__init__()
         self.unknown = unknown
 
-    def __impl(self, node, value, callback, serializing, unknown):
+    def __impl(self, node, value, callback, serializing, unknown):  # noqa
         error = None
         result = collections.OrderedDict()
 
@@ -22,14 +22,13 @@ class OrderedMapping(colander.Mapping):
 
             # Skip the `drop` values early, as we are not allowed to pass them to
             # the schema node.
-            if subval is colander.drop or (
-                    subval is colander.null and (
-                        (serializing and subnode.default is colander.drop) or
-                        (not serializing and subnode.missing is colander.drop)
-                    )
-            ):
+            if subval is colander.drop:
                 continue
-
+            if subval is colander.null:
+                if serializing and subnode.default is colander.drop:
+                    continue
+                if not serializing and subnode.missing is colander.drop:
+                    continue
             try:
                 sub_result = callback(subnode, subval)
             except colander.Invalid as e:
@@ -104,7 +103,7 @@ class OpenMapping(colander.Mapping):
                 error.add(e, index)
 
         if error is not None:
-            raise error
+            raise error  # noqa
 
         return result
 
