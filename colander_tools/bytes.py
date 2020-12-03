@@ -4,6 +4,8 @@ from __future__ import absolute_import
 import base64
 
 from colander import SchemaType, null, Invalid, _
+import six
+
 from . import compat
 
 
@@ -15,8 +17,8 @@ class AbstractEncodedBytes(SchemaType):
         if appstruct is null:
             return null
 
-        if not isinstance(appstruct, str):
-            raise Invalid(node, _("must be a byte string"))
+        if not isinstance(appstruct, six.binary_type):
+            raise Invalid(node, _("appstruct, currently type {}, must be a byte string ".format(type(appstruct))))
 
         return self.encoder(appstruct)  # noqa
 
@@ -25,7 +27,7 @@ class AbstractEncodedBytes(SchemaType):
             return null
 
         if not isinstance(cstruct, compat.string_types):
-            raise Invalid(node, _("must be a string"))
+            raise Invalid(node, _("cstruct, currently type {}, must be a string".format(type(cstruct))))
 
         return self.decoder(cstruct)  # noqa
 
