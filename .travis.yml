@@ -11,5 +11,6 @@ install:
   - pip install -r test-requirements.txt
 
 script:
-  - prospector --ignore-patterns='^(?!colander_tools)'
+  # Turning off prospector autodetect because, otherwise, it thinks Django is a dependency and fails.
+  - prospector --ignore-patterns='^(?!colander_tools)' --no-autodetect
   - py.test colander_tools

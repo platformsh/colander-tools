@@ -10,6 +10,8 @@ from . import compat
 class Number(SchemaType):
     """ Abstract base class for float, int, decimal """
 
+    # Initialising num to type(None) to fix a linting error.
+    num = type(None)
     num = None
 
     def serialize(self, node, appstruct):
