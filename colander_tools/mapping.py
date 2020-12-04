@@ -2,7 +2,7 @@
 import collections
 
 import colander
-
+import six
 
 class OrderedMapping(colander.Mapping):
     """A mapping that serializes to an ordered dict."""
@@ -89,7 +89,7 @@ class OpenMapping(colander.Mapping):
         error = None
         result = {}
 
-        for index, (k, v) in enumerate(value.iteritems()):
+        for index, (k, v) in enumerate(six.iteritems(value)):
             key_node = node["key"]
             value_node = node["value"].clone()
             value_node.name = k
