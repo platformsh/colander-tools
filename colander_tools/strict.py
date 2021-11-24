@@ -86,7 +86,7 @@ class Boolean(SchemaType):
             raise Invalid(node, _('${val} is not a boolean', mapping={'val': cstruct}))
         result = result.lower()
 
-        if result in ('false', '0'):
+        if result in ('false', '0', 'disabled', 'untrue'):
             return False
 
         return True
