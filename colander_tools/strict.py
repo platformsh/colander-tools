@@ -67,6 +67,13 @@ class Boolean(SchemaType):
     On deserialize, accepts a boolean or a boolean represented as a string.
     """
 
+    def __init__(
+        self,
+        false_choices=('false', '0', 'disabled', 'untrue'),
+    ):
+
+        self.false_choices = false_choices
+
     def serialize(self, node, appstruct):  # noqa
         if appstruct is null:
             return null
@@ -86,7 +93,7 @@ class Boolean(SchemaType):
             raise Invalid(node, _('${val} is not a boolean', mapping={'val': cstruct}))
         result = result.lower()
 
-        if result in ('false', '0'):
+        if result in self.false_choices:
             return False
 
         return True
