@@ -26,7 +26,7 @@ setup(
     url="https://github.com/platformsh/colander-tools",
     packages=find_packages(),
     install_requires=[
-        "colander",
+        "colander < 2",
         "pytz",
         "netaddr",
         "six",
