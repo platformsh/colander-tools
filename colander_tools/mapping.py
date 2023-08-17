@@ -78,12 +78,22 @@ class OrderedMapping(colander.Mapping):
         return self.__impl(node, cstruct, callback, serializing=False, unknown=self.unknown)
 
 
+unset = object()
+
+
 class OpenMapping(colander.Mapping):
     """
     A mapping where the keys are free-form and the values a specific type.
     """
 
-    def _impl(self, node, value, callback):
+    def _impl(self, node, value, callback, default_or_missing=unset):
+        # default_or_missing is used to specify whether this call is happening
+        # during serialization or deserialization, so that the validation can
+        # correctly choose between the default or missing attributes. Before
+        # colander 2.0, the default attribute was incorrectly used for both
+        # directions. Because OpenMapping doesn't validate the presence of
+        # specific keys, default and missing are both ignored, and the
+        # default_or_missing argument doesn't need to be used.
         value = self._validate(node, value)
 
         error = None
@@ -109,6 +119,8 @@ class OpenMapping(colander.Mapping):
 
 
 class SortedOpenMapping(OpenMapping):
-    def _impl(self, node, value, callback):
-        result = OpenMapping._impl(self, node, value, callback)
+    def _impl(self, node, value, callback, default_or_missing=unset):
+        result = OpenMapping._impl(
+            self, node, value, callback, default_or_missing
+        )
         return collections.OrderedDict(sorted(result.items()))
