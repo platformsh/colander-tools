@@ -11,10 +11,9 @@ setup(
     version="0.13.0",
     description="Extensions to `colander`, particularly useful as part of REST API validation.",
     long_description=README,
-    license="BSD",
+    license="BSD-3-Clause",
     classifiers=[
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
