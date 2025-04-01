@@ -2,6 +2,7 @@ import colander
 from colander_tools import mapping, serializable, strict
 from collections import OrderedDict
 
+
 def test_open_mapping():
     @serializable.serializable
     class Definition(object):
@@ -18,8 +19,9 @@ def test_open_mapping():
             self.foo = foo
 
     assert Definition.Schema().deserialize({"foo": {"a": 42}}).foo == {"a": 42}
-    assert Definition.Schema().serialize(Definition(foo={"mykey": 1234})) == {"foo": {"mykey": 1234}}
-
+    assert Definition.Schema().serialize(Definition(foo={"mykey": 1234})) == {
+        "foo": {"mykey": 1234}
+    }
 
 
 def test_sorted_open_mapping():
@@ -40,4 +42,6 @@ def test_sorted_open_mapping():
     deserialized = Definition.Schema().deserialize({"foo": {"a": 42}}).foo
     assert deserialized == {"a": 42}
     assert isinstance(deserialized, OrderedDict)
-    assert Definition.Schema().serialize(Definition(foo={"mykey": 1234})) == {"foo": {"mykey": 1234}}
+    assert Definition.Schema().serialize(Definition(foo={"mykey": 1234})) == {
+        "foo": {"mykey": 1234}
+    }

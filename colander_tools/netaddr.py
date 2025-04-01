@@ -1,4 +1,3 @@
-
 from __future__ import absolute_import
 
 from colander import SchemaType, Invalid, null, _
@@ -45,4 +44,6 @@ class IPNetworkType(SchemaType):
         try:
             return IPNetwork(cstruct, version=self._version)
         except Exception:
-            raise Invalid(node, _("must be a string representation of an IP address or CIDR"))
+            raise Invalid(
+                node, _("must be a string representation of an IP address or CIDR")
+            )

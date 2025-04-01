@@ -1,4 +1,3 @@
-
 def serializable(cls):
     """
     Class decorator: bind a colander schema and a python class.
@@ -45,7 +44,9 @@ def serializable(cls):
 def _patch_serializable_class_schema(schema_cls, appstruct_cls):
     def serialize(self, appstruct):
         if not isinstance(appstruct, self.AppStructClass):
-            raise TypeError("%s is not the expected type %s" % (appstruct, self.AppStructClass))
+            raise TypeError(
+                "%s is not the expected type %s" % (appstruct, self.AppStructClass)
+            )
 
         return schema_cls.serialize(self, _asdict(appstruct))
 
@@ -59,7 +60,7 @@ def _patch_serializable_class_schema(schema_cls, appstruct_cls):
             "AppStructClass": appstruct_cls,
             "serialize": serialize,
             "deserialize": deserialize,
-        }
+        },
     )
 
 

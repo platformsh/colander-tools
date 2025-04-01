@@ -1,4 +1,3 @@
-
 from colander import MappingSchema, Invalid, null
 
 
@@ -6,6 +5,7 @@ class SubSchemaMappingSchema(MappingSchema):
     """
     A schema that delegates to sub-schema depending on a type key.
     """
+
     type_key = "type"
 
     def serialize(self, appstruct=null):
