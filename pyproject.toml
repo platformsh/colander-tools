@@ -1,0 +1,31 @@
+[build-system]
+# This is the first version of setuptools that supports editable installation
+# without a setup.py file.
+requires = ["setuptools>=64.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "colander_tools"
+version = "0.13.0"
+description = "Extensions to `colander`, particularly useful as part of REST API validation."
+readme = "README.rst"
+license = "BSD-3-Clause"
+classifiers = [
+	"Intended Audience :: Developers",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 2.6",
+	"Programming Language :: Python :: 2.7",
+	"Programming Language :: Python :: 3",
+]
+authors = [
+	{ name = "Platform.sh", email = "sayhello@platform.sh" },
+]
+dependencies = [
+	"colander >= 2, < 3",
+	"pytz",
+	"netaddr",
+	"six",
+]
+
+[project.urls]
+source = "https://github.com/platformsh/colander-tools"
