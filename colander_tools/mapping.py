@@ -1,13 +1,13 @@
-
 import collections
 
 import colander
 import six
 
+
 class OrderedMapping(colander.Mapping):
     """A mapping that serializes to an ordered dict."""
 
-    def __init__(self, unknown='raise'):
+    def __init__(self, unknown="raise"):
         super(OrderedMapping, self).__init__()
         self.unknown = unknown
 
@@ -43,9 +43,12 @@ class OrderedMapping(colander.Mapping):
         if unknown == "raise":
             if value:
                 raise colander.UnsupportedFields(
-                    node, value,
-                    msg=colander._('Unrecognized keys in mapping: "${val}"',
-                          mapping={'val': value}))
+                    node,
+                    value,
+                    msg=colander._(
+                        'Unrecognized keys in mapping: "${val}"', mapping={"val": value}
+                    ),
+                )
 
         elif unknown == "preserve":
             result.update(value)
@@ -75,7 +78,9 @@ class OrderedMapping(colander.Mapping):
         def callback(subnode, subcstruct):
             return subnode.deserialize(subcstruct)
 
-        return self.__impl(node, cstruct, callback, serializing=False, unknown=self.unknown)
+        return self.__impl(
+            node, cstruct, callback, serializing=False, unknown=self.unknown
+        )
 
 
 unset = object()
@@ -120,7 +125,5 @@ class OpenMapping(colander.Mapping):
 
 class SortedOpenMapping(OpenMapping):
     def _impl(self, node, value, callback, default_or_missing=unset):
-        result = OpenMapping._impl(
-            self, node, value, callback, default_or_missing
-        )
+        result = OpenMapping._impl(self, node, value, callback, default_or_missing)
         return collections.OrderedDict(sorted(result.items()))

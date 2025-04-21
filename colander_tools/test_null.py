@@ -23,5 +23,8 @@ def test_nullable_schema():
 
     assert Definition.Schema().deserialize({"foo": {"foo": "bar"}}).foo["foo"] == "bar"
     assert Definition.Schema().deserialize({}).foo is None
-    assert Definition.Schema().serialize(Definition(foo={"foo": "bar"}))["foo"]["foo"] == "bar"
+    assert (
+        Definition.Schema().serialize(Definition(foo={"foo": "bar"}))["foo"]["foo"]
+        == "bar"
+    )
     assert Definition.Schema().serialize(Definition())["foo"] is None

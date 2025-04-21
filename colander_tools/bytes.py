@@ -1,4 +1,3 @@
-
 from __future__ import absolute_import
 
 import base64
@@ -18,7 +17,14 @@ class AbstractEncodedBytes(SchemaType):
             return null
 
         if not isinstance(appstruct, six.binary_type):
-            raise Invalid(node, _("appstruct, currently type {}, must be a byte string ".format(type(appstruct))))
+            raise Invalid(
+                node,
+                _(
+                    "appstruct, currently type {}, must be a byte string ".format(
+                        type(appstruct)
+                    )
+                ),
+            )
 
         return self.encoder(appstruct)  # noqa
 
@@ -27,7 +33,10 @@ class AbstractEncodedBytes(SchemaType):
             return null
 
         if not isinstance(cstruct, compat.string_types):
-            raise Invalid(node, _("cstruct, currently type {}, must be a string".format(type(cstruct))))
+            raise Invalid(
+                node,
+                _("cstruct, currently type {}, must be a string".format(type(cstruct))),
+            )
 
         return self.decoder(cstruct)  # noqa
 
@@ -36,6 +45,7 @@ class AbstractEncodedBytes(SchemaType):
 # ascii - they are bs64 encoded strings, meaning they can always become ascii strings.
 # On the other hand, colander needs this to be byte strings, that is why we simply return bytes from the
 # decoder.
+
 
 class Base16Bytes(AbstractEncodedBytes):
     encoder = staticmethod(lambda b: base64.b16encode(b).decode("ascii"))

@@ -1,4 +1,3 @@
-
 """
 A collection of strict types for Colander.
 """
@@ -8,7 +7,7 @@ from . import compat
 
 
 class Number(SchemaType):
-    """ Abstract base class for float, int, decimal """
+    """Abstract base class for float, int, decimal"""
 
     # Initialising num to type(None) to fix a linting error.
     num = type(None)
@@ -21,7 +20,9 @@ class Number(SchemaType):
         try:
             return self.num(appstruct)  # noqa
         except Exception:
-            raise Invalid(node, _('"${val}" is not a number', mapping={'val': appstruct}))
+            raise Invalid(
+                node, _('"${val}" is not a number', mapping={"val": appstruct})
+            )
 
     def deserialize(self, node, cstruct):
         if cstruct is null:
@@ -33,33 +34,35 @@ class Number(SchemaType):
         except Exception:
             pass
 
-        raise Invalid(node, _('"${val}" is not a number', mapping={'val': cstruct}))
+        raise Invalid(node, _('"${val}" is not a number', mapping={"val": cstruct}))
 
 
 class Integer(Number):
-    """ A type representing an integer.
+    """A type representing an integer.
 
     On serialize, always returns an integer, except if passed :attr:`colander.null`
     which is returned as-is.
 
     On deserialize, accepts an integer or an integer represented as a string.
     """
+
     num = int
 
 
 class Float(Number):
-    """ A type representing a float.
+    """A type representing a float.
 
     On serialize, always returns an float, except if passed :attr:`colander.null`
     which is returned as-is.
 
     On deserialize, accepts a float or a float represented as a string.
     """
+
     num = float
 
 
 class Boolean(SchemaType):
-    """ A type representing a boolean.
+    """A type representing a boolean.
 
     On serialize, always returns a boolean, except if passed :attr:`colander.null`
     which is returned as-is.
@@ -83,17 +86,17 @@ class Boolean(SchemaType):
         try:
             result = str(cstruct)
         except Exception:
-            raise Invalid(node, _('${val} is not a boolean', mapping={'val': cstruct}))
+            raise Invalid(node, _("${val} is not a boolean", mapping={"val": cstruct}))
         result = result.lower()
 
-        if result in ('false', '0'):
+        if result in ("false", "0"):
             return False
 
         return True
 
 
 class String(SchemaType):
-    """ A type representing a string.
+    """A type representing a string.
 
     On serialize, always returns a unicode string, except if passed :attr:`colander.null`
     which is returned as-is.
@@ -114,7 +117,7 @@ class String(SchemaType):
         if isinstance(cstruct, compat.string_types):
             return cstruct
 
-        raise Invalid(node, _('${val} is not a string', mapping={'val': cstruct}))
+        raise Invalid(node, _("${val} is not a string", mapping={"val": cstruct}))
 
 
 class Mapping(BaseMapping):

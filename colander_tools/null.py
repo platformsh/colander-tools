@@ -1,4 +1,3 @@
-
 from colander import SchemaType, drop, null
 
 
@@ -58,9 +57,9 @@ def NullableSchema(schema_cls):
 
     return type(
         "Nullable%s" % schema_cls.__name__,
-        (schema_cls, ),
+        (schema_cls,),
         {
             "serialize": _serialize,
             "deserialize": _deserialize,
-        }
+        },
     )
