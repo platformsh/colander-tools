@@ -2,6 +2,16 @@ fail_fast: true
 repos:
     - repo: local
       hooks:
+          - id: uv-lock
+            name: uv lock
+            language: system
+            require_serial: true
+            files: (^|/)pyproject\.toml$
+            pass_filenames: false
+            entry: uv lock
+            args:
+                - --check
+
           - id: ruff
             name: ruff check
             language: system
