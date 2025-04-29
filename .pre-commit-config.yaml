@@ -19,3 +19,9 @@ repos:
             entry: uv run ruff format
             args:
                 - --verbose
+
+          - id: pyproject-fmt
+            name: pyproject-fmt
+            language: system
+            files: (^|/)pyproject\.toml$
+            entry: uv run pyproject-fmt
