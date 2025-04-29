@@ -1,5 +1,17 @@
 fail_fast: true
 repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+            # This file is automatically written without a newline, and fixing it
+            # repeatedly would be a waste of time.
+            exclude: ".basedpyright/baseline.json"
+          - id: debug-statements
+          - id: check-docstring-first
+          - id: check-merge-conflict
+          - id: name-tests-test
     - repo: local
       hooks:
           - id: uv-lock
