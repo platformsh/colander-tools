@@ -35,3 +35,13 @@ repos:
             args:
                 - --ignore-patterns='^(?!colander_tools)'
                 - --no-autodetect
+
+          - id: basedpyright
+            name: basedpyright
+            language: system
+            require_serial: true
+            types: [python]
+            entry: uv run basedpyright
+            args:
+                - --level
+                - error
