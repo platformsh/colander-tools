@@ -25,3 +25,13 @@ repos:
             language: system
             files: (^|/)pyproject\.toml$
             entry: uv run pyproject-fmt
+
+          - id: prospector
+            name: prospector
+            language: system
+            require_serial: true
+            types: [python]
+            entry: uv run prospector
+            args:
+                - --ignore-patterns='^(?!colander_tools)'
+                - --no-autodetect
