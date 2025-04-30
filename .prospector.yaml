@@ -1,0 +1,11 @@
+strictness: medium
+
+pylint:
+    disable:
+        # TODO: incrementally re-enable and fix each of these warnings
+        - consider-using-f-string
+        - disallowed-name
+        - raise-missing-from
+        - redefined-builtin
+        - super-with-arguments
+        - useless-object-inheritance

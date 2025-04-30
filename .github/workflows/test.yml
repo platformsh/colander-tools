@@ -1,0 +1,29 @@
+name: test
+on: [push, pull_request]
+jobs:
+    check:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version:
+                    - "3.9"
+                    - "3.10"
+                    - "3.11"
+                    - "3.12"
+                    - "3.13"
+                    - "3.14"
+        env:
+            UV_PYTHON: ${{ matrix.python-version }}
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install uv
+              uses: astral-sh/setup-uv@v5
+              with:
+                  # This is pinned for reproducibility. It can be updated anytime
+                  # a new version of uv is released.
+                  version: 0.6.17
+                  python-version: ${{ matrix.python-version }}
+            - name: Install dependencies
+              run: uv sync --locked --all-extras --dev
+            - name: Run py.test
+              run: uv run py.test colander_tools

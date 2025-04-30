@@ -14,13 +14,11 @@ license = "BSD-3-Clause"
 authors = [
     { name = "Platform.sh", email = "sayhello@platform.sh" },
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 classifiers = [
     "Intended Audience :: Developers",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -36,10 +34,22 @@ dependencies = [
 
 urls.source = "https://github.com/platformsh/colander-tools"
 
+[dependency-groups]
+dev = [
+    "basedpyright~=1.29",
+    "pre-commit~=4.2",
+    "prospector~=1.16",
+    "pyproject-fmt~=2.5",
+    "pytest~=8.3",
+    "ruff~=0.11.5",
+]
+
 [tool.pyproject-fmt]
 indent = 4
 
-[dependency-groups]
-dev = [
-    "ruff~=0.11.5",
-]
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+include = [ "colander_tools" ]
+pythonVersion = "3.9"
+failOnWarnings = false

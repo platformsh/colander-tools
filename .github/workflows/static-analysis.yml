@@ -1,0 +1,21 @@
+name: Static analysis
+on: [push, pull_request]
+jobs:
+    static_analysis:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install uv
+              uses: astral-sh/setup-uv@v5
+              with:
+                  # This is pinned for reproducibility. It can be updated anytime
+                  # a new version of uv is released.
+                  version: 0.6.17
+            - name: "Set up Python"
+              uses: actions/setup-python@v5
+              with:
+                  python-version-file: "pyproject.toml"
+            - name: Install dependencies
+              run: uv sync --locked --all-extras --dev
+            - name: Run static checks
+              run: uv run pre-commit run --all-files

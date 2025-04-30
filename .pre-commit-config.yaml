@@ -1,0 +1,69 @@
+fail_fast: true
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+            # This file is automatically written without a newline, and fixing it
+            # repeatedly would be a waste of time.
+            exclude: ".basedpyright/baseline.json"
+          - id: debug-statements
+          - id: check-docstring-first
+          - id: check-merge-conflict
+          - id: name-tests-test
+    - repo: local
+      hooks:
+          - id: uv-lock
+            name: uv lock
+            language: system
+            require_serial: true
+            files: (^|/)pyproject\.toml$
+            pass_filenames: false
+            entry: uv lock
+            args:
+                - --check
+
+          - id: ruff
+            name: ruff check
+            language: system
+            require_serial: true
+            types: [python]
+            entry: uv run ruff check
+            args:
+                - --fix
+                - --exit-non-zero-on-fix
+          - id: ruff-format
+            name: ruff format
+            language: system
+            require_serial: true
+            types: [python]
+            entry: uv run ruff format
+            args:
+                - --verbose
+
+          - id: pyproject-fmt
+            name: pyproject-fmt
+            language: system
+            files: (^|/)pyproject\.toml$
+            entry: uv run pyproject-fmt
+
+          - id: prospector
+            name: prospector
+            language: system
+            require_serial: true
+            types: [python]
+            entry: uv run prospector
+            args:
+                - --ignore-patterns='^(?!colander_tools)'
+                - --no-autodetect
+
+          - id: basedpyright
+            name: basedpyright
+            language: system
+            require_serial: true
+            types: [python]
+            entry: uv run basedpyright
+            args:
+                - --level
+                - error
